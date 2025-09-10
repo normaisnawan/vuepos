@@ -57,7 +57,7 @@
       const quickActions = [
         { key:'trx', label:'Transaksi', icon:'solar:card-transfer-line-duotone', to:'transaksi' },
         { key:'produk', label:'Produk', icon:'solar:box-linear', to:'produk' },
-        { key:'kategori', label:'Kategori', icon:'solar:category-line-duotone', to:'kategori' },
+        { key:'kategori', label:'Kategori', icon:'solar:archive-line-duotone', to:'kategori' },
         { key:'laporan', label:'Laporan', icon:'solar:chart-2-line-duotone', to:'laporan' },
       ];
       const todaySales = computed(()=> state.transaksi
