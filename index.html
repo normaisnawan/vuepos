@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>POS - Vue CDN (Mobile First)</title>
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <!-- Vue 3 (CDN) -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <style>
+    body { background: #f6f7fb; }
+    .safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 72px); }
+    .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,0.6); }
+  </style>
+</head>
+<body class="min-h-screen text-slate-800 safe-bottom">
+  <div id="app" class="mx-auto max-w-md min-h-screen relative">
+    <!-- Top App Bar -->
+    <header class="sticky top-0 z-30">
+      <div class="px-4 pt-4 pb-3 bg-white shadow-sm flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-500">Selamat datang,</p>
+          <h1 class="text-lg font-semibold">{{ state.profile.namaOutlet }}</h1>
+        </div>
+        <button @click="openSettings" class="p-2 rounded-full hover:bg-slate-100">
+          <span class="iconify" data-icon="solar:settings-bold-duotone" data-width="22"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Router view -->
+    <main class="px-4 pb-24 pt-3">
+      <component :is="currentView"></component>
+    </main>
+
+    <!-- Bottom Tab Bar -->
+    <nav class="fixed bottom-0 left-0 right-0 z-40">
+      <div class="mx-auto max-w-md">
+        <div class="m-3 rounded-2xl glass shadow-lg border border-white/60">
+          <div class="grid grid-cols-5">
+            <button @click="go('home')" :class="tabClass('home')" class="flex flex-col items-center gap-1 py-3">
+              <span class="iconify" data-icon="solar:home-2-line-duotone" data-width="22"></span>
+              <span class="text-[11px]">Home</span>
+            </button>
+            <button @click="go('kategori')" :class="tabClass('kategori')" class="flex flex-col items-center gap-1 py-3">
+              <span class="iconify" data-icon="solar:category-line-duotone" data-width="22"></span>
+              <span class="text-[11px]">Kategori</span>
+            </button>
+            <button @click="go('produk')" :class="tabClass('produk')" class="flex flex-col items-center gap-1 py-3">
+              <span class="iconify" data-icon="solar:box-linear" data-width="22"></span>
+              <span class="text-[11px]">Produk</span>
+            </button>
+            <button @click="go('transaksi')" :class="tabClass('transaksi')" class="flex flex-col items-center gap-1 py-3">
+              <span class="iconify" data-icon="solar:card-transfer-line-duotone" data-width="22"></span>
+              <span class="text-[11px]">Transaksi</span>
+            </button>
+            <button @click="go('laporan')" :class="tabClass('laporan')" class="flex flex-col items-center gap-1 py-3">
+              <span class="iconify" data-icon="solar:chart-2-line-duotone" data-width="22"></span>
+              <span class="text-[11px]">Laporan</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Settings Sheet -->
+    <div v-if="ui.showSettings" class="fixed inset-0 z-50 bg-black/30" @click.self="ui.showSettings=false">
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white rounded-t-3xl p-5 shadow-xl">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold">Pengaturan</h3>
+          <button class="p-2" @click="ui.showSettings=false">
+            <span class="iconify" data-icon="solar:close-circle-line-duotone" data-width="22"></span>
+          </button>
+        </div>
+        <label class="block text-sm text-slate-600 mb-1">Nama Outlet</label>
+        <input v-model="state.profile.namaOutlet" class="w-full border rounded-xl px-3 py-2 focus:outline-none focus:ring" placeholder="Nama outlet"/>
+        <div class="flex justify-end gap-2 mt-4">
+          <button class="px-4 py-2 rounded-xl bg-slate-100" @click="resetData">Reset</button>
+          <button class="px-4 py-2 rounded-xl bg-slate-900 text-white" @click="saveState">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- App scripts -->
+  <script src="./assets/js/state.js"></script>
+  <script src="./assets/js/pages/home.js"></script>
+  <script src="./assets/js/pages/kategori.js"></script>
+  <script src="./assets/js/pages/produk.js"></script>
+  <script src="./assets/js/pages/transaksi.js"></script>
+  <script src="./assets/js/pages/laporan.js"></script>
+  <script src="./assets/js/app.js"></script>
+</body>
+</html>
