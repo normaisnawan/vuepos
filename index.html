@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="manifest" href="assets/manifest.json" />
+  <meta name="theme-color" content="#0f172a">
   <title>POS - Vue CDN (Mobile First)</title>
   <!-- Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -85,6 +87,32 @@
     </div>
   </div>
 
+  <button id="btnInstall" class="hidden fixed right-4 bottom-24 px-4 py-3 rounded-xl bg-indigo-600 text-white">
+    Install Aplikasi
+  </button>
+
+  <script>
+  let deferredPrompt = null;
+  const btn = document.getElementById('btnInstall');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (!localStorage.getItem('a2hsShown')) {
+      btn.classList.remove('hidden');
+    }
+  });
+
+  btn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    btn.classList.add('hidden');
+    localStorage.setItem('a2hsShown', '1');
+  });
+  </script>
+
   <!-- App scripts -->
   <script src="./assets/js/state.js"></script>
   <script src="./assets/js/pages/home.js"></script>
@@ -93,5 +121,11 @@
   <script src="./assets/js/pages/transaksi.js"></script>
   <script src="./assets/js/pages/laporan.js"></script>
   <script src="./assets/js/app.js"></script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('assets/sw.js');
+  }
+  </script>
+
 </body>
 </html>
